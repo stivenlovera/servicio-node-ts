@@ -12,24 +12,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MakeARequest = void 0;
-const simple_xml_to_json_1 = require("simple-xml-to-json");
+exports.CreateRequest = void 0;
 const urllib_1 = __importDefault(require("urllib"));
-function MakeARequest() {
+function CreateRequest({ host, password, url, usuario, method, data }) {
     return __awaiter(this, void 0, void 0, function* () {
-        let authorizationUser = 'admin';
-        let authorizationPassword = 'molomix654';
-        const data = yield urllib_1.default.request('http://192.168.88.30/ISAPI/System/deviceinfo', {
-            method: 'GET',
-            contentType: 'application/json',
-            headers: {},
-            digestAuth: `${authorizationUser}:${authorizationPassword}`
-        });
-        console.log("🚀 ~ file: test.mjs:26 ~ data:", data.data.toString());
-        const Json = (0, simple_xml_to_json_1.convertXML)(data.data.toString());
-        console.log(Json.DeviceInfo.children);
-        console.log("🚀 ~ file: test.mjs:26 ~ data:", data.status.toString());
-        return Json.DeviceInfo.children;
+        console.log(`http://${host}/${url}`);
+        try {
+            const response = yield urllib_1.default.request(`http://${host}/${url}`, {
+                method: method,
+                contentType: 'application/json',
+                headers: {},
+                digestAuth: `${usuario}:${password}`,
+                data: data
+            });
+            return {
+                status: response.statusCode,
+                message: response.statusText,
+                data: response.data
+            };
+        }
+        catch (error) {
+            return {
+                status: 301,
+                message: 'se encontro un error',
+                data: null
+            };
+        }
     });
 }
-exports.MakeARequest = MakeARequest;
+exports.CreateRequest = CreateRequest;

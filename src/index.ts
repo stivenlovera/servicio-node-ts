@@ -1,15 +1,26 @@
-import { io } from "socket.io-client";
-import { MakeARequest } from "./service/servicio";
+import { CronJob } from "cron";
+import { InitializeLoggers } from "./config/logguers";
+import { InitializeSocket } from "./config/socket-io";
+import { dispositivo } from "./emisores/dispositivo";
 
+export const logger = InitializeLoggers();
+logger.info('Iniziando Servicio ...');
+export const socket = InitializeSocket();
 
-const info = MakeARequest();
+/*MODULOS SOCKETS */
+dispositivo();
 
-const socket = io("http://localhost:3000");
+const Cron = CronJob.from({
+    cronTime: '*/10 * * * * *',
+    onTick: function () {
+        console.log('Cron Job reinciando')
+        logger.info('Cron Job reinciando');
+    },
+    start: true,
+    timeZone: 'America/Los_Angeles'
+});
 
-socket.emit("store:data", async () => { await info });
-console.log('inciando worker')
-
-
+Cron.start();
 
 
 

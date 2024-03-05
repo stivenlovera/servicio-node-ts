@@ -1,0 +1,4 @@
+2024-03-02 03:33:12 - Starting C:\Program Files\nodejs\node.exe  --harmony --max_old_space_size=4096 C:\Users\stivenlovera\AppData\Roaming\nvm\v18.16.1\node_modules\node-windows\lib\wrapper.js --file H:\socket\servicio-node-ts\service-worker.js --scriptoptions= --log "service-worker-demo wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2024-03-02 03:33:12 - Started 34644
+2024-03-02 03:33:26 - Starting C:\Program Files\nodejs\node.exe  --harmony --max_old_space_size=4096 C:\Users\stivenlovera\AppData\Roaming\nvm\v18.16.1\node_modules\node-windows\lib\wrapper.js --file H:\socket\servicio-node-ts\service-worker.js --scriptoptions= --log "service-worker-demo wrapper" --grow 0.25 --wait 1 --maxrestarts 3 --abortonerror n --stopparentfirst undefined
+2024-03-02 03:33:26 - Started 31848

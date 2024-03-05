@@ -1,24 +1,33 @@
-import { convertXML } from 'simple-xml-to-json'
-import urllib from 'urllib'
-
-export async function MakeARequest() {
-
-    let authorizationUser = 'admin'
-    let authorizationPassword = 'molomix654'
-
-    const data = await urllib.request('http://192.168.88.30/ISAPI/System/deviceinfo', {
-        method: 'GET',
-        contentType: 'application/json',
-        headers: {
-
-        },
-        digestAuth: `${authorizationUser}:${authorizationPassword}`
-    })
-
-    console.log("🚀 ~ file: test.mjs:26 ~ data:", data.data.toString())
-    const Json = convertXML(data.data.toString())
-    console.log(Json.DeviceInfo.children)
-    console.log("🚀 ~ file: test.mjs:26 ~ data:", data.status.toString())
-
-    return Json.DeviceInfo.children;
+import urllib, { Dispatcher } from 'urllib'
+interface CreateRequesProps {
+    host: string
+    url: string
+    usuario: string
+    password: string
+    method: Dispatcher.HttpMethod | "get" | "head" | "post" | "put" | "delete" | "connect" | "options" | "trace" | "patch" | undefined,
+    data?: any
+}
+export async function CreateRequest({ host, password, url, usuario, method, data }: CreateRequesProps) {
+    console.log(`http://${host}/${url}`)
+    try {
+        const response = await urllib.request(`http://${host}/${url}`, {
+            method: method,
+            contentType: 'application/json',
+            headers: {
+            },
+            digestAuth: `${usuario}:${password}`,
+            data: data
+        });
+        return {
+            status: response.statusCode,
+            message: response.statusText,
+            data: response.data
+        }
+    } catch (error) {
+        return {
+            status: 301,
+            message: 'se encontro un error',
+            data: null
+        }
+    }
 }

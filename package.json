@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "ts": "tsc -w",
-    "dev": "nodemon dist/index.js",
+    "dev": "nodemon dist/index.js --stream",
     "build": "tsc && node ./dist/index.js"
   },
   "keywords": [],
@@ -16,11 +16,16 @@
     "@types/md5": "^2.3.5",
     "@types/node": "^20.11.24",
     "axios": "^1.6.7",
+    "cron": "^3.1.6",
+    "dotenv": "^16.4.5",
+    "js-logger": "^1.6.1",
     "md5": "^2.3.0",
     "nodemon": "^3.1.0",
     "simple-xml-to-json": "^1.1.7",
     "socket.io-client": "^4.7.4",
-    "urllib": "^3.22.5"
+    "urllib": "^3.22.5",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
     "typescript": "^5.3.3"
