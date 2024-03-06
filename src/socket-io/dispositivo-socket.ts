@@ -13,6 +13,9 @@ const dispositivoSocket = async (lector: Ilector) => {
         url: 'ISAPI/System/deviceinfo'
     });
     const data = convertXML(response.data.toString())
+
+    //respuesta
     socket.emit('dispositivo:service', data)
 }
+
 export default dispositivoSocket

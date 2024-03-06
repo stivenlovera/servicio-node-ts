@@ -21,6 +21,7 @@ const dispositivoSocket = (lector) => __awaiter(void 0, void 0, void 0, function
         url: 'ISAPI/System/deviceinfo'
     });
     const data = (0, simple_xml_to_json_1.convertXML)(response.data.toString());
+    //respuesta
     __1.socket.emit('dispositivo:service', data);
 });
 exports.default = dispositivoSocket;
