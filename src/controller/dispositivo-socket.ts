@@ -1,7 +1,7 @@
 
 import { convertXML } from "simple-xml-to-json"
 import { socket } from ".."
-import { Ilector } from "../interface/dipositivo"
+import { Ilector } from "../interface/hikvision/dipositivo"
 import { CreateRequest } from "../service/servicio"
 
 const dispositivoSocket = async (lector: Ilector) => {
