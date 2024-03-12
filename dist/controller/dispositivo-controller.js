@@ -9,18 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const simple_xml_to_json_1 = require("simple-xml-to-json");
+exports.dispositivoController = void 0;
 const __1 = require("..");
-const servicio_1 = require("../service/servicio");
-const dispositivoSocket = (lector) => __awaiter(void 0, void 0, void 0, function* () {
-    const response = yield (0, servicio_1.CreateRequest)({
+const request_api_1 = require("../service/request-api");
+const dispositivoController = (lector) => __awaiter(void 0, void 0, void 0, function* () {
+    const response = yield (0, request_api_1.CreateRequest)({
+        contentType: "application/json",
         host: lector.ipLector,
         method: 'GET',
         password: lector.passLector,
         usuario: lector.userLector,
         url: 'ISAPI/System/deviceinfo'
     });
-    const data = (0, simple_xml_to_json_1.convertXML)(response.data.toString());
-    __1.socket.emit('dispositivo:service', data);
+    //const data = convertXML(response.data.toString())
+    //respuesta
+    __1.socket.emit('dispositivo:service', 'data');
 });
-exports.default = dispositivoSocket;
+exports.dispositivoController = dispositivoController;
+exports.default = exports.dispositivoController;

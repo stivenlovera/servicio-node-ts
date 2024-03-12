@@ -2,20 +2,21 @@
 import { convertXML } from "simple-xml-to-json"
 import { socket } from ".."
 import { Ilector } from "../interface/hikvision/dipositivo"
-import { CreateRequest } from "../service/servicio"
+import { CreateRequest } from "../service/request-api"
 
-const dispositivoSocket = async (lector: Ilector) => {
+export const dispositivoController = async (lector: Ilector) => {
     const response = await CreateRequest({
+        contentType: "application/json",
         host: lector.ipLector,
         method: 'GET',
         password: lector.passLector,
         usuario: lector.userLector,
         url: 'ISAPI/System/deviceinfo'
     });
-    const data = convertXML(response.data.toString())
+    //const data = convertXML(response.data.toString())
 
     //respuesta
-    socket.emit('dispositivo:service', data)
+    socket.emit('dispositivo:service', 'data')
 }
 
-export default dispositivoSocket
+export default dispositivoController

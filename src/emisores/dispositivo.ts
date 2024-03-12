@@ -1,6 +1,6 @@
 import { socket } from ".."
-import dispositivoSocket from "../controller/dispositivo-socket"
+import dispositivoController from "../controller/dispositivo-controller"
 
 export const dispositivo = () => {
-    socket.on('dispositivo:web', (e) => { dispositivoSocket(e) })
+    socket.on('dispositivo:web', (e) => { dispositivoController(e) })
 }

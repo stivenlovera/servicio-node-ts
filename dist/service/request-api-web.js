@@ -12,19 +12,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CreateRequest = void 0;
+exports.CreateRequestWeb = void 0;
 const urllib_1 = __importDefault(require("urllib"));
-function CreateRequest({ host, password, url, usuario, method, data }) {
+function CreateRequestWeb({ url, method, data, contentType }) {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log(`http://${host}/${url}`);
+        //console.log(`web request => ${process.env.URL_WEB}/${url}`)
         try {
-            const response = yield urllib_1.default.request(`http://${host}/${url}`, {
+            const response = yield urllib_1.default.request(`${process.env.URL_WEB}/${url}/`, {
                 method: method,
-                contentType: 'application/json',
+                contentType: contentType,
+                dataType: 'buffer',
                 headers: {},
-                digestAuth: `${usuario}:${password}`,
-                data: data
+                data: data,
             });
+            //console.log(`web response => ${response.statusCode, response.data}`)
             return {
                 status: response.statusCode,
                 message: response.statusText,
@@ -32,12 +33,13 @@ function CreateRequest({ host, password, url, usuario, method, data }) {
             };
         }
         catch (error) {
+            //console.log(`web response => ${error}`)
             return {
-                status: 301,
-                message: 'se encontro un error',
-                data: null
+                status: '500',
+                message: 'error',
+                data: 'error'
             };
         }
     });
 }
-exports.CreateRequest = CreateRequest;
+exports.CreateRequestWeb = CreateRequestWeb;

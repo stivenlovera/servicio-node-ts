@@ -1,6 +1,5 @@
 import winston from "winston";
 import * as fs from 'fs';
-import * as path from 'path';
 import 'winston-daily-rotate-file';
 
 export function InitializeLoggers() {
