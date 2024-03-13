@@ -43,7 +43,7 @@ const fs = __importStar(require("fs"));
 const path_1 = __importDefault(require("path"));
 const usuarioInsert = (usuarios, lectores, fotos) => __awaiter(void 0, void 0, void 0, function* () {
     lectores.map((lector, i) => __awaiter(void 0, void 0, void 0, function* () {
-        if (i == 1) {
+        if (i == 0) {
             usuarios.map((usuario) => __awaiter(void 0, void 0, void 0, function* () {
                 /*  const response = await CreateRequest({
                      contentType: "application/json",
@@ -61,11 +61,11 @@ const usuarioInsert = (usuarios, lectores, fotos) => __awaiter(void 0, void 0, v
                 const { data, message, status } = yield (0, request_api_web_1.CreateRequestWeb)({ url: foto.img.toString(), method: 'GET', contentType: "application/json" });
                 //const image = new Buffer.from(data, data.legnt);
                 let str = Buffer.from(data).toString();
-                //const blob = new Blob([str], { type: 'imagen/jpg' });
-                //const file = new File([blob], "mi foto.jpg");
+                //const blob = new Blob([str], { type: 'imagen/jpeg' });
+                //const file = new File([blob], "mi foto.jpeg");
                 //const imagen = await fs.writeFileSync('nueva_imagen.jpg', data, { encoding: "binary" });
-                const absolutePath = path_1.default.join(__dirname, '../' + '../' + 'nueva_imagen.jpg');
-                //const absolutePath = path.join(__dirname + '/nueva_imagen.jpg');
+                const absolutePath = path_1.default.join(__dirname, '../' + '../' + 'nueva_imagen.jpeg');
+                //const absolutePath = path.join(__dirname + '/nueva_imagen.jpeg');
                 console.log('absolutePath', absolutePath);
                 const imagen = fs.createReadStream(absolutePath);
                 //console.log('File extraido -------', imagen)

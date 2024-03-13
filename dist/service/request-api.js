@@ -187,43 +187,39 @@ function CreateRequestFormData({ host, password, url, usuario, method, data, fil
         };
         try {
             const formData = new FormData();
-            const absolutePath = path_1.default.join(__dirname, '../' + '../' + 'nueva_imagen.jpg');
+            const absolutePath = path_1.default.join(__dirname, '../' + '../' + 'nueva_imagen.jpeg');
             const absoluteText = path_1.default.join(__dirname, '../' + '../' + 'text.txt');
             console.log('ruta imagen', absolutePath);
-            const blob = new Blob([yield (0, promises_1.readFile)(absolutePath)], { type: "image/jpg" });
+            const blob = new Blob([yield (0, promises_1.readFile)(absolutePath)], { type: "image/jpeg" });
             const blobText = new Blob([yield (0, promises_1.readFile)(absoluteText)], { type: "text/plain" });
             /* formData.set('FaceDataRecord', new Blob([JSON.stringify({
                 FaceDataRecord: { faceLibType: "blackFD", FDID: "1", FPID: "15" }
             })])); */
-            formData.append('FaceDataRecord', JSON.stringify({ "faceLibType": "blackFD", "FDID": "1", "FPID": "15" }));
-            formData.append('Img', blob, 'nueva_imagen.jpg');
+            formData.append("FaceDataRecord", '{ faceLibType: "blackFD", FDID: "1", FPID: "15" }');
+            formData.append('img', (blob), 'nueva_imagen.jpeg');
             /* formData.set('FaceDataRecord',new Blob([JSON.stringify({"faceLibType":"blackFD","FDID":"1","FPID":"15"})], {
                 type: "application/json"
             })) */
-            console.log('cuerpo formData', formData.values());
-            for (const value of formData.values()) {
-                console.log(value);
-            }
+            console.log('cuerpo formData', formData);
+            console.log('img', formData.getAll('img'));
+            console.log('FaceDataRecord', formData.getAll('FaceDataRecord'));
+            /*   for (const value of formData.values()) {
+                  console.log(value);
+              } */
             const client = new digest_fetch_1.default(usuario, password, { algorithm: 'MD5' });
             const response = yield client.fetch(`http://${host}/${url}`, {
                 method: method,
-                contentType: false,
-                mimeType: 'multipart/form-data',
+                contentType: contentType,
+                redirect: "follow",
                 body: formData,
                 headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                    //'Accept': '*/*',
-                    'Accept-Encoding': 'gzip, deflate',
-                    //"Content-Type": "multipart/form-data; boundary=------border",
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    "Content-Type": "application/json",
                     "Connection": " keep-alive",
-                    'Accept': 'application/json',
-                    'Content-Type': undefined
-                    //"Content-Type": "multipart/form-data"
-                    /* 'Content-Type': 'multipart/form-data',
+                    'Accept': '*/*',
+                    "Cache-Control": "no-cache",
+                    "X-Requested-With": "XMLHttpRequest",
                     "Access-Control-Allow-Origin": "*",
-                    "Connection": "Keep-Alive",
-                    
-                   , */
                 },
                 //agent: agentSelector
             });

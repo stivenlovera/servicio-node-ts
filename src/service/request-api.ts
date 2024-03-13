@@ -211,51 +211,48 @@ export async function CreateRequestFormData({ host, password, url, usuario, meth
     try {
 
         const formData = new FormData()
-        const absolutePath = path.join(__dirname, '../' + '../' + 'nueva_imagen.jpg');
+        const absolutePath = path.join(__dirname, '../' + '../' + 'nueva_imagen.jpeg');
         const absoluteText = path.join(__dirname, '../' + '../' + 'text.txt');
         console.log('ruta imagen', absolutePath)
-        const blob = new Blob([await readFile(absolutePath)],{ type: "image/jpg"});
+        const blob = new Blob([await readFile(absolutePath)], { type: "image/jpeg" });
 
-        const blobText = new Blob([await readFile(absoluteText)],{ type: "text/plain"});
-        
+        const blobText = new Blob([await readFile(absoluteText)], { type: "text/plain" });
+
 
         /* formData.set('FaceDataRecord', new Blob([JSON.stringify({
             FaceDataRecord: { faceLibType: "blackFD", FDID: "1", FPID: "15" } 
         })])); */
-        formData.append('FaceDataRecord',JSON.stringify({"faceLibType":"blackFD","FDID":"1","FPID":"15"}))
-        formData.append('Img', blob, 'nueva_imagen.jpg');
+        
+        formData.append("FaceDataRecord", '{ faceLibType: "blackFD", FDID: "1", FPID: "15" }')
+        formData.append('img', (blob), 'nueva_imagen.jpeg');
         /* formData.set('FaceDataRecord',new Blob([JSON.stringify({"faceLibType":"blackFD","FDID":"1","FPID":"15"})], {
             type: "application/json"
         })) */
-        
 
+ 
+        console.log('cuerpo formData', formData)
 
-        console.log('cuerpo formData', formData.values())
-        for (const value of formData.values()) {
-            console.log(value);
-        }
+        console.log('img', formData.getAll('img'))
+        console.log('FaceDataRecord', formData.getAll('FaceDataRecord'))
+        /*   for (const value of formData.values()) {
+              console.log(value);
+          } */
         const client = new DigestClient(usuario, password, { algorithm: 'MD5' });
         const response = await client.fetch(
             `http://${host}/${url}`,
             {
                 method: method,
-                contentType: false,
-                mimeType: 'multipart/form-data',
+                contentType: contentType,
+                redirect: "follow",
                 body: formData,
                 headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                    //'Accept': '*/*',
-                    'Accept-Encoding': 'gzip, deflate',
-                    //"Content-Type": "multipart/form-data; boundary=------border",
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    "Content-Type": "application/json",
                     "Connection": " keep-alive",
-                    'Accept': 'application/json',
-                    'Content-Type': undefined
-                    //"Content-Type": "multipart/form-data"
-                    /* 'Content-Type': 'multipart/form-data',
+                    'Accept': '*/*',
+                    "Cache-Control": "no-cache",
+                    "X-Requested-With": "XMLHttpRequest",
                     "Access-Control-Allow-Origin": "*",
-                    "Connection": "Keep-Alive",
-                    
-                   , */
                 },
                 //agent: agentSelector
             }

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "ts": "tsc -w",
-    "dev": "nodemon dist/index.js --stream",
-    "build": "tsc && node ./dist/index.js"
+    "dev": "nodemon  NODE_DEBUG=http dist/index.js ",
+    "debug": "NODE_DEBUG=http dist/index.js"
   },
   "keywords": [],
   "author": "",

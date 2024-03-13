@@ -11,7 +11,7 @@ import path from "path"
 
 export const usuarioInsert = async (usuarios: IUsuario[], lectores: Ilector[], fotos: IImagen[]) => {
     lectores.map(async (lector, i) => {
-        if (i == 1) {
+        if (i == 0) {
             usuarios.map(async (usuario) => {
                /*  const response = await CreateRequest({
                     contentType: "application/json",
@@ -30,11 +30,11 @@ export const usuarioInsert = async (usuarios: IUsuario[], lectores: Ilector[], f
                 const { data, message, status } = await CreateRequestWeb({ url: foto.img.toString(), method: 'GET', contentType: "application/json" })
                 //const image = new Buffer.from(data, data.legnt);
                 let str = Buffer.from(data).toString();
-                //const blob = new Blob([str], { type: 'imagen/jpg' });
-                //const file = new File([blob], "mi foto.jpg");
+                //const blob = new Blob([str], { type: 'imagen/jpeg' });
+                //const file = new File([blob], "mi foto.jpeg");
                 //const imagen = await fs.writeFileSync('nueva_imagen.jpg', data, { encoding: "binary" });
-                const absolutePath = path.join(__dirname, '../' + '../' + 'nueva_imagen.jpg');
-                //const absolutePath = path.join(__dirname + '/nueva_imagen.jpg');
+                const absolutePath = path.join(__dirname, '../' + '../' + 'nueva_imagen.jpeg');
+                //const absolutePath = path.join(__dirname + '/nueva_imagen.jpeg');
                 console.log('absolutePath', absolutePath)
 
                 const imagen = fs.createReadStream(absolutePath);
