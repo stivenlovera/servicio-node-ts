@@ -1,60 +1,40 @@
 
-import { convertXML } from "simple-xml-to-json"
 import { logger, socket } from ".."
-import { Ilector } from "../interface/hikvision/dipositivo"
+import { ILectorData, Ilector } from "../interface/hikvision/dipositivo"
+import { IUsuarioFoto } from "../interface/hikvision/usuario"
 import { CreateRequest, CreateRequestFormData } from "../service/request-api"
-import { IUsuario } from "../interface/hikvision/usuario"
-import { IImagen } from "../interface/hikvision/foto"
 import { CreateRequestWeb } from "../service/request-api-web"
-import * as fs from 'fs';
-import path from "path"
 
-export const usuarioInsert = async (usuarios: IUsuario[], lectores: Ilector[], fotos: IImagen[]) => {
-    lectores.map(async (lector, i) => {
-        if (i == 0) {
-            usuarios.map(async (usuario) => {
-               /*  const response = await CreateRequest({
-                    contentType: "application/json",
-                    host: lector.ipLector,
-                    method: 'POST',
-                    password: lector.passLector,
-                    usuario: lector.userLector,
-                    url: 'ISAPI/AccessControl/UserInfo/Record?format=json',
-                    data: usuario
-                });
-                console.log(response)
-                logger.info(`insertando usuario => ${response}`); */
-            });
 
-            fotos.map(async (foto) => {
-                const { data, message, status } = await CreateRequestWeb({ url: foto.img.toString(), method: 'GET', contentType: "application/json" })
-                //const image = new Buffer.from(data, data.legnt);
-                let str = Buffer.from(data).toString();
-                //const blob = new Blob([str], { type: 'imagen/jpeg' });
-                //const file = new File([blob], "mi foto.jpeg");
-                //const imagen = await fs.writeFileSync('nueva_imagen.jpg', data, { encoding: "binary" });
-                const absolutePath = path.join(__dirname, '../' + '../' + 'nueva_imagen.jpeg');
-                //const absolutePath = path.join(__dirname + '/nueva_imagen.jpeg');
-                console.log('absolutePath', absolutePath)
+export const usuarioInsert = async (lectorData: ILectorData<IUsuarioFoto>[]) => {
+    lectorData.map(async (lector, i) => {
+        const response_usuario = await CreateRequest({
+            contentType: "application/json",
+            host: lector.ipLector,
+            method: 'POST',
+            password: lector.passLector,
+            usuario: lector.userLector,
+            url: 'ISAPI/AccessControl/UserInfo/Record?format=json',
+            data: {
+                UserInfo: lector.data.UserInfo
+            }
+        });
+        console.log('response_foto', response_usuario)
+        logger.info(`insertando usuario => ${response_usuario}`);
 
-                const imagen = fs.createReadStream(absolutePath);
-                //console.log('File extraido -------', imagen)
-
-                //foto.img = imagen;
-                //console.log('File -------', imagen)
-                const response = await CreateRequestFormData({
-                    contentType: "application/json",
-                    host: lector.ipLector,
-                    method: 'PUT',
-                    password: lector.passLector,
-                    usuario: lector.userLector,
-                    url: 'ISAPI/Intelligent/FDLib/FDSetUp?format=json',
-                    files: [imagen],
-                    data: { FaceDataRecord: foto.FaceDataRecord, img: 'imagen' }
-                });
-                logger.info(`insertando foto => ${response}`);
-            });
-        }
+        //lector.data.FaceDataRecord.faceURL = 'https://gym-admin.todo-soft.net/imagenes/clientes/image65ec314fd83471709977935.jpg';
+        //
+        const response_foto = await CreateRequest({
+            contentType: "application/json",
+            host: lector.ipLector,
+            method: 'PUT',
+            password: lector.passLector,
+            usuario: lector.userLector,
+            url: 'ISAPI/Intelligent/FDLib/FDSetUp?format=json',
+            data: lector.data.FaceDataRecord
+        });
+        console.log('response_foto', response_foto)
+        logger.info(`insertando usuario => ${response_foto}`);
     });
 }
 async function procesamientoImagen(img: string) {

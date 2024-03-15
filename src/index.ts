@@ -2,7 +2,7 @@ import { CronJob } from "cron";
 import { InitializeLoggers } from "./config/logguers";
 import { InitializeSocket } from "./config/socket-io";
 import { dispositivo } from "./emisores/dispositivo";
-import { usuario, usuarioFoto } from "./emisores/usuario";
+import { usuario } from "./emisores/usuario";
 import urllib, { Dispatcher } from 'urllib';
 
 urllib.USER_AGENT='app/1.0'

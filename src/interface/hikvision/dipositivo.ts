@@ -36,3 +36,7 @@ export interface Ilector {
     passLector: string
     condicionLector: number
 }
+
+export interface ILectorData<T> extends Ilector {
+    data: T
+}
